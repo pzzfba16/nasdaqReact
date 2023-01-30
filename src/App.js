@@ -1,6 +1,7 @@
 import React from 'react';
 import './styles.css';
 import Stock from './Stock';
+import SearchFrom from './SearchForm';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -50,6 +51,8 @@ export default class App extends React.Component {
           {this.state.showMSG && (
             <p>Figlio maggiorenne: {this.state.maggiorenne}</p>
           )}
+          <p></p>
+          <SearchFrom />
         </header>
       </div>
     );
