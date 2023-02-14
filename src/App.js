@@ -26,6 +26,10 @@ export default class App extends React.Component {
     this.setState({ showMSG: mostra });
   };
 
+  mostraDatiForm = (d) => {
+    alert(d);
+  };
+
   render() {
     return (
       <div className="App">
@@ -52,7 +56,7 @@ export default class App extends React.Component {
             <p>Figlio maggiorenne: {this.state.maggiorenne}</p>
           )}
           <p></p>
-          <SearchFrom />
+          <SearchFrom onSubmit={this.mostraDatiForm} />
         </header>
       </div>
     );

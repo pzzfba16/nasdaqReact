@@ -36,6 +36,7 @@ export default class SearchFrom extends React.Component {
 
   invioForm = (e) => {
     e.preventDefault();
+    this.props.onSubmit(this.state.cerca);
   };
 
   render() {
