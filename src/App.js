@@ -1,63 +1,52 @@
 import React from 'react';
 import './styles.css';
 import Stock from './Stock';
-import SearchFrom from './SearchForm';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMsg: false,
-      maggiorenne: ''
+      listastock: [
+        {
+          nome: 'AAPL',
+          quotazione: 250
+        }
+      ]
     };
-    this.mostraMsg = this.mostraMsg.bind(this);
+    console.log('1g) GENITORE: Creo istanza');
   }
 
-  mostraMsg = (evt) => {
-    alert('Stringa passata: ' + evt);
-    this.setState({ showMsg: true });
-  };
+  static getDerivedStateFromProps(np, ps) {
+    return null;
+  }
 
-  showMaggiorenne = (nome) => {
-    this.setState({ maggiorenne: nome });
-  };
+  componentDidMount() {
+    console.log('3g) GENITORE: DidMount');
+    //const stock = [{ nome: 'AAPL', quotazione: 350 }];
+    // this.setState((props, state) => {
+    //   listastock: stock;
+    // });
+  }
 
-  showMSG = (mostra) => {
-    this.setState({ showMSG: mostra });
-  };
+  componentDidUpdate(prevProps) {
+    //console.log('4g) FIGLIO: DidUpdate');
+  }
 
-  mostraDatiForm = (d) => {
-    alert(d);
+  aggiornaStock = (e) => {
+    e.preventDefault();
+    const newStock = { nome: 'AMZN', quotazione: 1200 };
+    this.setState({ listastock: [newStock] });
   };
 
   render() {
+    console.log('2g) GENITORE: Render');
     return (
       <div className="App">
-        <header className="App-header">
-          <h1>Hello CodeSandbox</h1>
-          <h2>Start editing to see some magic happen!</h2>
-          {/* <p onClick={() => this.mostraMsg('Davide')}>Applicazione React</p>
-          {this.state.showMsg && <p>Messaggio nascosto</p>} */}
-          <Stock
-            nome="Fabio"
-            fondatore="Google"
-            eta={12}
-            showEta={this.showMaggiorenne}
-            showMSG={this.showMSG}
-          />
-          <Stock
-            nome="Salvo"
-            fondatore="Apple"
-            eta={17}
-            showEta={this.showMaggiorenne}
-            showMSG={this.showMSG}
-          />
-          {this.state.showMSG && (
-            <p>Figlio maggiorenne: {this.state.maggiorenne}</p>
-          )}
-          <p></p>
-          <SearchFrom onSubmit={this.mostraDatiForm} />
-        </header>
+        <h1>Applicazione Stock Quote</h1>
+        <button onClick={this.aggiornaStock}>Top Stock</button>
+        {this.state.listastock.map((el) => (
+          <Stock datistock={el} />
+        ))}
       </div>
     );
   }

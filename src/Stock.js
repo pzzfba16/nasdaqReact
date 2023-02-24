@@ -1,34 +1,58 @@
 import React from 'react';
+import './styles.css';
 import PropType from 'prop-types';
 
 export default class Stock extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { eta: this.props.eta };
+    const { nome, quotazione } = this.props.datistock;
+    this.state = { quotazione };
+    console.log('1f) FIGLIO: Creo istanza ' + nome);
   }
 
-  aggiornaStato = () => {
-    this.setState((state, props) => ({ eta: state.eta + 1 }));
-    if (this.state.eta >= 18) {
-      this.props.showEta(this.props.nome);
-      this.props.showMSG(true);
-    }
-  };
+  static getDerivedStateFromProps(np, ps) {
+    // console.log('1fa) FIGLIO: Check props e state')
+    return null;
+  }
 
-  realTime = () => {
-    setInterval(() => this.aggiornaStato(), 3000);
+  componentDidMount() {
+    console.log('3f) FIGLIO: DidMount ' + this.props.datistock.nome);
+  }
+
+  componentDidUpdate(pp, ps) {
+    console.log('4f) FIGLIO: DidUpdate ' + this.props.datistock.nome);
+    if (pp.datistock.quotazione !== this.props.datistock.quotazione) {
+      this.setState((state, props) => ({
+        quotazione: props.datistock.quotazione
+      }));
+    }
+  }
+
+  aggiornaStock = () => {
+    this.setState((state, props) => ({ quotazione: state.quotazione + 10 }));
   };
 
   render() {
-    const { nome, fondatore } = this.props;
+    console.log('2f) FIGLIO: render ' + this.props.datistock.nome);
     return (
-      <div>
-        <h1>
-          Io sono {nome}, età {this.state.eta}
-        </h1>
-        <p>Fondatore di: {fondatore}</p>
-        {/* <p>{this.state.eta >= 18 ? 'Sono maggiorenne' : 'Sono minorenne'}</p> */}
-        <button onClick={this.realTime}>Aggiorna</button>
+      <div className="stock">
+        <div className="row">
+          <div className="col">
+            <h2>{this.props.datistock.nome}</h2>
+            <p>Nasdaq</p>
+          </div>
+          <div className="col">
+            <h2>{this.state.quotazione}</h2>
+            <p>HH:MM:SS</p>
+          </div>
+          <div className="col">
+            <h2>Var</h2>
+            <p>%</p>
+          </div>
+          <div className="col">
+            <button onClick={this.aggiornaStock}>Aggiorna</button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -36,12 +60,10 @@ export default class Stock extends React.Component {
 
 Stock.defaultProps = {
   nome: 'ND',
-  fondatore: 'ND',
-  eta: 'ND'
+  quotazione: 'ND'
 };
 
 Stock.propTypes = {
   nome: PropType.string,
-  fondatore: PropType.string,
-  eta: PropType.number
+  quotazione: PropType.number
 };
