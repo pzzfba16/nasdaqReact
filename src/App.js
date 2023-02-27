@@ -38,14 +38,18 @@ export default class App extends React.Component {
     this.setState({ listastock: [newStock] });
   };
 
+  componentWillUnmount = () => {
+    console.log('5g) GENITORE: Componente App Distrutto');
+  };
+
   render() {
     console.log('2g) GENITORE: Render');
     return (
       <div className="App">
         <h1>Applicazione Stock Quote</h1>
         <button onClick={this.aggiornaStock}>Top Stock</button>
-        {this.state.listastock.map((el) => (
-          <Stock datistock={el} />
+        {this.state.listastock.map((el, index) => (
+          <Stock key={index} datistock={el} />
         ))}
       </div>
     );

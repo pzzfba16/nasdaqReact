@@ -6,13 +6,23 @@ export default class Stock extends React.Component {
   constructor(props) {
     super(props);
     const { nome, quotazione } = this.props.datistock;
-    this.state = { quotazione };
+    this.state = { nome, quotazione };
     console.log('1f) FIGLIO: Creo istanza ' + nome);
   }
 
-  static getDerivedStateFromProps(np, ps) {
-    // console.log('1fa) FIGLIO: Check props e state')
-    return null;
+  static getDerivedStateFromProps(np, ns) {
+    console.log('1fa) FIGLIO: Check props e state');
+    if (
+      np.datistock.quotazione !== ns.quotazione &&
+      np.datistock.nome !== ns.nome
+    ) {
+      return {
+        nome: np.datistock.nome,
+        quotazione: np.datistock.quotazione
+      };
+    } else {
+      return null;
+    }
   }
 
   componentDidMount() {
@@ -60,7 +70,7 @@ export default class Stock extends React.Component {
 
 Stock.defaultProps = {
   nome: 'ND',
-  quotazione: 'ND'
+  quotazione: 0
 };
 
 Stock.propTypes = {
